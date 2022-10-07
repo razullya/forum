@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="../ui/styles/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-container">
+        <header>
+            <div class="header_text">
+                <a href="/">
+                    FORUM
+                </a>
+            </div>
+
+            {{ if .User.Username }}
+            <div class="header_text1">
+                <a class="header_part" href="/post/create">create post</a>
+                <a class="header_part" href="/profile/{{.User.Username }}">profile</a>
+                <a class="header_part" href="/auth/logout">log out</a>
+
+                
+            </div>
+            {{ else }}
+            <div class="header_text1">
+
+                <a class="header_part" href="/auth/signin">sign in</a>
+                <br>
+                <a class="header_part" href="/auth/signup">sign up</a>
+
+
+            </div>
+            {{ end }}
+
+        </header>
+
+
+        <div class="main-content">
+
+            <form>
+                <input type="submit" name="filter" value="by_categories">
+                <input type="submit" name="filter" value="by_likes">
+                <input type="submit" name="filter" value="by_time">
+            </form>
+           
+            {{range .Posts}}
+
+            <a href="/post/?id={{.Id}}">{{.Title}}</a>
+            <h3>{{.Description}}</h3>
+            <a href="/profile/{{.Creator}}">{{.Creator}}</a>
+            {{end}}
+
+        </div>
+
+        <footer>
+
+            <div class="footer_text">FORUM by <br><b><a href="https://01.alem.school/git/razullya">razullya</a></b> and
+                <b><a href="https://01.alem.school/git/Adi1_Asqaru1y">Adi1_Asqaru1y </a></b>
+            </div>
+
+        </footer>
+    </div>
+
+</body>
+
+</html>

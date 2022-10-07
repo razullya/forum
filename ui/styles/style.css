@@ -1,0 +1,217 @@
+* {
+    margin: 0 auto;
+}
+
+body {
+    font-family: 'Alfa Slab One', cursive;
+    font-size: 12px;
+    background-image: url("/ui/images/bg.jpeg");
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #142a38;
+    align-items: center;
+    border-radius: 60px;
+    min-width: 250px;
+}
+
+a {
+    text-decoration: none;
+}
+
+h3 {
+    color: #fff;
+    text-shadow: 0px 3px #000;
+}
+
+.card {
+    display: flex;
+    height: 270px;
+    width: 250px;
+    padding: 10px;
+    margin: 20px;
+    text-align: center;
+    background-color: #95a14a;
+    border-radius: 10%;
+    align-items: center;
+}
+
+img {
+    border-radius: 10%;
+}
+
+
+/* #05386B - #379683 - #5CDB95 - #8EE4AF - #EDF5E1 */
+
+.main-container {
+    width: 1240px;
+    max-width: 80%;
+    padding: 20px;
+}
+
+.main-content {
+    min-width: 250px;
+    background-color: #c7d663;
+    opacity: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 30px;
+    justify-content: center;
+}
+
+.header_text {
+    margin: 10px 20px 10px 20px;
+    display: flex;
+    font-size: 30px;
+    color: #244860;
+    text-shadow: -0 -1px 0 #C7D663, 0 -1px 0 #C7D663, -0 1px 0 #C7D663, 0 1px 0 #C7D663, -1px -0 0 #C7D663, 1px -0 0 #C7D663, -1px 0 0 #C7D663, 1px 0 0 #C7D663, -1px -1px 0 #C7D663, 1px -1px 0 #C7D663, -1px 1px 0 #C7D663, 1px 1px 0 #C7D663, -1px -1px 0 #C7D663, 1px -1px 0 #C7D663, -1px 1px 0 #C7D663, 1px 1px 0 #C7D663;
+}
+.header_text1 {
+    margin: 10px 10px 10px 5px;
+    display: flex;
+    font-size: 24px;
+    color: #244860;
+    text-shadow: -0 -1px 0 #C7D663, 0 -1px 0 #C7D663, -0 1px 0 #C7D663, 0 1px 0 #C7D663, -1px -0 0 #C7D663, 1px -0 0 #C7D663, -1px 0 0 #C7D663, 1px 0 0 #C7D663, -1px -1px 0 #C7D663, 1px -1px 0 #C7D663, -1px 1px 0 #C7D663, 1px 1px 0 #C7D663, -1px -1px 0 #C7D663, 1px -1px 0 #C7D663, -1px 1px 0 #C7D663, 1px 1px 0 #C7D663;
+}
+.header_part{
+    display: flex;
+    margin: 10px 20px 10px 5px;
+}
+.search_bar_ico {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background-color: #95a14a;
+    border-radius: 50%;
+    padding: 7px;
+}
+
+.searchBox {
+    margin: 0 20px 0 0;
+    background: #c7d663;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px;
+    border: 200px;
+}
+
+.searchBox:hover {
+    box-shadow: 0px 0px 6px var(--primaryColor);
+}
+
+.searchBox:hover>.searchInput {
+    width: 240px;
+    padding: 0 6px;
+}
+
+.searchButton {
+    color: var(--secondaryColor);
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primaryColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.searchInput {
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+}
+
+@media screen and (max-width: 620px) {
+    .searchBox:hover>.searchInput {
+        width: 150px;
+        padding: 0 6px;
+    }
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #142a38;
+    align-items: center;
+    border-radius: 30px;
+    display: flex;
+    font-size: 20px;
+    text-align: center;
+    color: #c7d663;
+    align-self: flex-end;
+    padding: 15px;
+}
+
+b {
+    color: #244860;
+    text-decoration: none;
+    text-shadow: -0 -1px 0 #C7D663, 0 -1px 0 #C7D663, -0 1px 0 #C7D663, 0 1px 0 #C7D663, -1px -0 0 #C7D663, 1px -0 0 #C7D663, -1px 0 0 #C7D663, 1px 0 0 #C7D663, -1px -1px 0 #C7D663, 1px -1px 0 #C7D663, -1px 1px 0 #C7D663, 1px 1px 0 #C7D663, -1px -1px 0 #C7D663, 1px -1px 0 #C7D663, -1px 1px 0 #C7D663, 1px 1px 0 #C7D663;
+}
+
+.artist {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.artist_img {
+    margin: 20px;
+}
+
+.info-inner {
+    margin-bottom: 20px;
+}
+
+.city {
+    text-decoration: underline;
+}
+
+.br {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width:800px) {
+    header {
+        flex-direction: column;
+    }
+    .searchBox {
+        margin: 0;
+        margin-bottom: 10px;
+    }
+    .header_text {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .card {
+        width: 200px;
+        height: 220px;
+    }
+    img {
+        width: 200px;
+        height: 200px;
+    }
+    #map{
+            width: 200px;
+            height: 200px;
+    }
+}
