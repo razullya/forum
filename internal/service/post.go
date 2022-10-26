@@ -16,6 +16,7 @@ type Post interface {
 	GetAllPosts(filter string) ([]models.Post, error)
 	GetPostById(id int) (models.Post, error)
 	GetPostsByUsername(username string) ([]models.Post, error)
+	GetAllCategories() ([]string, error)
 	UpdateCountsReactionsPost(likes int, dislikes int, postId int) error
 }
 
@@ -88,4 +89,12 @@ func (p *PostService) UpdateCountsReactionsPost(likes int, dislikes int, postId 
 		return err
 	}
 	return nil
+}
+func (p *PostService) GetAllCategories() ([]string, error) {
+	var categories []string
+	categories, err := p.storage.GetAllCategories()
+	if err != nil {
+		return nil, err
+	}
+	return categories, nil
 }

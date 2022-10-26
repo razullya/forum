@@ -9,13 +9,13 @@ import (
 )
 
 func (h *Handler) post(w http.ResponseWriter, r *http.Request) {
-	// if r.URL.Path != "/post" {
-	// 	h.errorPage(w, http.StatusNotFound, http.StatusText(http.StatusNotFound))
-	// 	return
-	// }
+	if r.URL.Path != "/post/" {
+		h.errorPage(w, http.StatusNotFound, http.StatusText(http.StatusNotFound))
+		return
+	}
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	if err != nil {
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		h.errorPage(w, http.StatusNotFound, http.StatusText(http.StatusNotFound))
 		return
 	}
 
@@ -57,7 +57,7 @@ func (h *Handler) post(w http.ResponseWriter, r *http.Request) {
 		info := models.Info{
 			Post:     post,
 			Comments: comments,
-			User:     user,
+			ThatUser: user,
 		}
 
 		if err := h.Tmpl.ExecuteTemplate(w, "post.html", info); err != nil {
@@ -72,6 +72,10 @@ func (h *Handler) post(w http.ResponseWriter, r *http.Request) {
 
 		user := h.userIdentity(w, r)
 		comment, ok := r.Form["comment"]
+		if comment[0] == "" {
+			h.errorPage(w, http.StatusBadRequest, "comment field not found")
+			return
+		}
 
 		if !ok {
 			h.errorPage(w, http.StatusBadRequest, "comment field not found")
@@ -102,7 +106,7 @@ func (h *Handler) createPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	info := models.Info{
-		User: user,
+		ThatUser: user,
 	}
 	switch r.Method {
 	case http.MethodGet:
@@ -117,20 +121,24 @@ func (h *Handler) createPost(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		title, ok := r.Form["title"]
-		if !ok {
+
+		if !ok || title[0] == "" {
 			h.errorPage(w, http.StatusBadRequest, "title field not found")
 			return
 		}
 		description, ok := r.Form["description"]
-		if !ok {
+
+		if !ok || description[0] == "" {
 			h.errorPage(w, http.StatusBadRequest, "description field not found")
 			return
 		}
 		category, ok := r.Form["category"]
-		if !ok {
+
+		if !ok || category[0] == "" {
 			h.errorPage(w, http.StatusBadRequest, "category field not found")
 			return
 		}
+
 		post := models.Post{
 			Title:       title[0],
 			Description: description[0],
@@ -213,7 +221,7 @@ func (h *Handler) changePost(w http.ResponseWriter, r *http.Request) {
 
 		id, err := strconv.Atoi(r.URL.Query().Get("id"))
 		if err != nil {
-			http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+			h.errorPage(w, http.StatusNotFound, http.StatusText(http.StatusNotFound))
 			return
 		}
 		user := h.userIdentity(w, r)
@@ -235,8 +243,36 @@ func (h *Handler) changePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) filterPostCategories(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/post/filter" {
+	if r.URL.Path != "/post/categories/" {
 		h.errorPage(w, http.StatusNotFound, http.StatusText(http.StatusNotFound))
+		return
+	}
+	if r.Method != http.MethodGet {
+		h.errorPage(w, http.StatusMethodNotAllowed, http.StatusText(http.StatusMethodNotAllowed))
+		return
+	}
+	user := h.userIdentity(w, r)
+	if err := r.ParseForm(); err != nil {
+		h.errorPage(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	categories, err := h.Services.Post.GetAllCategories()
+	if err != nil {
+		h.errorPage(w, http.StatusInternalServerError, err.Error())
+	}
+	posts, err := h.Services.Post.GetAllPosts("")
+	if err != nil {
+		h.errorPage(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	info := models.Info{
+		Categories: categories,
+		Posts:      posts,
+		ThatUser:   user,
+	}
+	if err := h.Tmpl.ExecuteTemplate(w, "categories.html", info); err != nil {
+		h.errorPage(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

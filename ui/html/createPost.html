@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="../ui/styles/style.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 </head>
 
@@ -19,43 +20,51 @@
                 </a>
             </div>
 
-            {{ if .User.Username }}
+            {{ if .ThatUser.Username }}
             <div class="header_text1">
-                <a class="header_part" href="/post/create">create post</a>
-                <a class="header_part" href="/profile/{{.User.Username }}">profile</a>
-                <a class="header_part" href="/auth/logout">log out</a>
-
-                
+                <a class="header_part" href="/post/create"><i class="ri-add-circle-line"></i></a>
+                <a class="header_part" href="/profile/{{.ThatUser.Username }}"><i class="ri-user-line"></i></a>
+                <a class="header_part" href="/auth/logout"><i class="ri-login-box-line"></i></a>
             </div>
-            {{ else }}
-            <div class="header_text1">
-
-                <a class="header_part" href="/auth/signin">sign in</a>
-                <br>
-                <a class="header_part" href="/auth/signup">sign up</a>
+            {{end}}
 
 
-            </div>
-            {{ end }}
 
         </header>
-
-
         <div class="main-content">
-    <form action="/post/create" method="post">
-        <input type="text" name="title">
-        <input type="text" name="description">
-        <input type="text" name="category">
-        <input type="submit" value="create">
-    </form>
-</div>
+            {{ if .ThatUser.Username }}
 
-<footer>
+            <h2>Create Post</h2>
+            <form class="form_auth" action="/post/create" method="post">
+                TITLE
+                <input class="form_auth_input" type="text" name="title" maxlength="40">
+                DESCRIPTION
+                <textarea class="form_auth_input" name="description" id="description" cols="30" rows="8"
+                    maxlength="1000"></textarea>
+                <!-- <input class="form_auth_input" type="text" name="description"> -->
+                CATEGORY
+                <input class="form_auth_input" type="text" name="category" maxlength="80">
+                <input class="btn" type="submit" value="CREATE">
+            </form>
+            {{else}}
+            <div style="text-align:center;">
+                YOU CANNOT CREATE POST PLEASE SIGN IN
+                <br>
+                <a href="/">HOME</a>
+                <br>
+                <a href="/auth/signin">SIGN IN</a>
+            </div>
+            {{ end }}
+        </div>
 
-    <div class="footer_text">forum by <br><b><a href="https://01.alem.school/git/razullya">razullya</a></b> and <b><a href="https://01.alem.school/git/Adi1_Asqaru1y">Adi1_Asqaru1y </a></b></div>
+        <footer>
 
-</footer>
-</div>
+            <div class="footer_text">forum by <br><b><a href="https://01.alem.school/git/razullya">razullya</a></b> and
+                <b><a href="https://01.alem.school/git/Adi1_Asqaru1y">Adi1_Asqaru1y </a></b>
+            </div>
+
+        </footer>
+    </div>
 
 </body>
 

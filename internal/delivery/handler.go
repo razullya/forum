@@ -29,11 +29,11 @@ func (h *Handler) InitRoutes() {
 
 	h.Mux.HandleFunc("/post/", h.post)
 	h.Mux.HandleFunc("/post/create", h.createPost)
-	h.Mux.HandleFunc("/post/delete/", h.deletePost)
-	h.Mux.HandleFunc("/post/change/", h.changePost)
+	// h.Mux.HandleFunc("/post/delete/", h.deletePost)
+	// h.Mux.HandleFunc("/post/change/", h.changePost)
 	h.Mux.HandleFunc("/post/like/", h.likePost)
 	h.Mux.HandleFunc("/post/dislike/", h.dislikePost)
-	h.Mux.HandleFunc("/post/filter/", h.filterPostCategories)
+	h.Mux.HandleFunc("/post/categories/", h.filterPostCategories)
 
 	// h.Mux.HandleFunc("/comment/delete/", h.deleteComment)
 	// h.Mux.HandleFunc("/comment/change/", h.changeComment)

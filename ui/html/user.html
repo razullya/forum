@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link href="../ui/styles/style.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 </head>
 
@@ -19,37 +20,77 @@
                 </a>
             </div>
 
-            {{ if .User.Username }}
+            {{ if .ThatUser.Username }}
             <div class="header_text1">
-                <a class="header_part" href="/post/create">create post</a>
-                <a class="header_part" href="/profile/{{.User.Username }}">profile</a>
-                <a class="header_part" href="/auth/logout">log out</a>
-
-
+                <a class="header_part" href="/post/create"><i class="ri-add-circle-line"></i></a>
+                <a class="header_part" href="/profile/{{.ThatUser.Username }}"><i class="ri-user-line"></i></a>
+                <a class="header_part" href="/auth/logout"><i class="ri-login-box-line"></i></a>
             </div>
             {{ else }}
             <div class="header_text1">
-
-                <a class="header_part" href="/auth/signin">sign in</a>
+                <a class="header_part" href="/auth/signin"><i class="ri-login-box-line"></i></a>
                 <br>
-                <a class="header_part" href="/auth/signup">sign up</a>
-
-
+                <a class="header_part" href="/auth/signup"><i class="ri-user-add-line"></i></a>
             </div>
             {{ end }}
 
         </header>
 
 
+
         <div class="main-content">
-            {{range .Posts}}
-            <div class="post">
-                <a href="/post/?id={{.Id}}">{{.Title}}</a>
-                <h3>{{.Description}}</h3>
-                <a href="/profile/{{.Creator}}">{{.Creator}}</a>
+            {{if .User.Username}}
+            <div class="profile">
+                <div class="profile-card">
+                    <span class="profile__text">ID:</span>
+                    <p>{{.User.ID}}</p>
+                </div>
+
+                <div class="profile-card">
+                    <span class="profile__text">Username:</span>
+                    <p>{{.User.Username}}</p>
+                </div>
+
+                <div class="profile-card">
+                    <span class="profile__text">E-mail:</span>
+                    <p>{{.User.Email}}</p>
+                </div>
+            </div>
+            {{else}}
+            <div class="profile">
+                <div class="profile-card">
+                    <span class="profile__text">ID:</span>
+                    <p>{{.ThatUser.ID}}</p>
+                </div>
+
+                <div class="profile-card">
+                    <span class="profile__text">Username:</span>
+                    <p>{{.ThatUser.Username}}</p>
+                </div>
+
+                <div class="profile-card">
+                    <span class="profile__text">E-mail:</span>
+                    <p>{{.ThatUser.Email}}</p>
+                </div>
+            </div>
+            {{end}}
+
+            <div class="posts">
+                <br>
+                <h2>POSTS</h2>
+                {{range .Posts}}
+                {{if .}}
+                <div class="post">
+                    <a class="post__title" href="/post/?id={{.Id}}">{{.Title}}</a>
+                    <a class="post__description">{{.Description}}</h3>
+                        <a href="/profile/{{.Creator}}">{{.Creator}}</a>
+                </div>
+                {{else}}
+                fsdf
+                {{end}}
+                {{end}}
             </div>
 
-            {{end}}
         </div>
 
         <footer>
@@ -62,5 +103,31 @@
     </div>
 
 </body>
+<script>
+    const postTitles = document.querySelectorAll('.post__title');
+
+    postTitles.forEach(postTitle => {
+        if (postTitle.innerText.length > 80) {
+            postTitle.innerText = postTitle.innerText.substring(0, 40) + "...";
+        }
+    });
+
+
+    const postDescriptions = document.querySelectorAll('.post__description');
+
+    postDescriptions.forEach(postDescription => {
+        if (postDescription.innerText.length > 80) {
+            postDescription.innerText = postDescription.innerText.substring(0, 80) + "...";
+        }
+    });
+
+    const postTags = document.querySelectorAll('.tags');
+
+    postTags.forEach(postTag => {
+        if (postTag.innerText.length > 10) {
+            postTag.innerText = postTag.innerText.substring(0, 10) + "...";
+        }
+    });
+</script>
 
 </html>

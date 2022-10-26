@@ -16,6 +16,8 @@ type Post interface {
 	GetPostsByUsername(username string) ([]models.Post, error)
 	GetPostById(id int) (models.Post, error)
 	GetAllPosts(filter string) ([]models.Post, error)
+	GetAllCategories() ([]string, error)
+	GetCategoriesById(id int) ([]string, error)
 	//	AUTH
 	GetUserByToken(token string) (models.User, error)
 }
@@ -110,14 +112,29 @@ func (p *PostStorage) UpdatePost(postId int, post models.Post) error {
 	}
 	return nil
 }
+func (p *PostStorage) GetCategoriesById(id int) ([]string, error) {
+	var cats []string
+	query := `SELECT tag FROM categories WHERE id_post=$1;`
+	row, err := p.db.Query(query, id)
+	if err != nil {
+		return nil, fmt.Errorf("storage: get categories by id post: %w", err)
+	}
+	for row.Next() {
+		cat := ""
+		if err := row.Scan(&cat); err != nil {
+			return nil, fmt.Errorf("storage: get categories by id post: %w", err)
+		}
+		cats = append(cats, cat)
+	}
+	return cats, nil
+}
 func (p *PostStorage) GetAllPosts(filter string) ([]models.Post, error) {
 	posts := []models.Post{}
 	query := ""
-	if filter == "by_categories" {
-		query = `SELECT * FROM post;`
-	} else if filter == "by_likes" {
+
+	if filter == "More Liked" {
 		query = `SELECT * FROM post ORDER BY likes DESC;`
-	} else if filter == "by_time" {
+	} else if filter == "Newest" {
 		query = `SELECT * FROM post ORDER BY created_at DESC;`
 	} else {
 		query = `SELECT * FROM post;`
@@ -131,8 +148,14 @@ func (p *PostStorage) GetAllPosts(filter string) ([]models.Post, error) {
 		if err := row.Scan(&post.Id, &post.Creator, &post.Title, &post.Description, &post.Likes, &post.Dislikes, &post.CreatedAt); err != nil {
 			return nil, fmt.Errorf("storage: get all posts: %w", err)
 		}
+		post.Category, err = p.GetCategoriesById(post.Id)
+		if err != nil {
+			return nil, fmt.Errorf("storage: get all posts: %w", err)
+		}
+
 		posts = append(posts, post)
 	}
+
 	return posts, nil
 }
 func (p *PostStorage) UpdateCountsReactionsPost(likes int, dislikes int, postId int) error {
@@ -142,4 +165,21 @@ func (p *PostStorage) UpdateCountsReactionsPost(likes int, dislikes int, postId 
 		return fmt.Errorf("storage: update counts reactions by post id: %w", err)
 	}
 	return nil
+}
+func (p *PostStorage) GetAllCategories() ([]string, error) {
+	var categories []string
+	query := `SELECT DISTINCT tag FROM categories;`
+	rows, err := p.db.Query(query)
+	if err != nil {
+		return nil, fmt.Errorf("storage: get all categories: %w", err)
+	}
+	for rows.Next() {
+		cat := ""
+		if err := rows.Scan(&cat); err != nil {
+			return nil, fmt.Errorf("storage: get all categories: %w", err)
+		}
+		categories = append(categories, cat)
+	}
+	return categories, nil
+
 }

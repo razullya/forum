@@ -1,8 +1,10 @@
 package models
 
 type Info struct {
-	User     User
-	Posts    []Post
-	Post     Post
-	Comments []Comment
+	User       User
+	ThatUser   User
+	Posts      []Post
+	Post       Post
+	Comments   []Comment
+	Categories []string
 }

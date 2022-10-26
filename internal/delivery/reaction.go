@@ -9,7 +9,6 @@ import (
 
 func (h *Handler) likePost(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println(r.URL.Path)
 	postId, err := strconv.Atoi(r.URL.Query().Get("id"))
 
 	if err != nil {
@@ -30,7 +29,6 @@ func (h *Handler) likePost(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) dislikePost(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println(r.URL.Path)
 	postId, err := strconv.Atoi(r.URL.Query().Get("id"))
 
 	if err != nil {
@@ -50,13 +48,13 @@ func (h *Handler) dislikePost(w http.ResponseWriter, r *http.Request) {
 }
 func (h *Handler) likeComment(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println(r.URL.Path)
 	commentId, err := strconv.Atoi(r.URL.Query().Get("id_comment"))
 
 	if err != nil {
 		h.errorPage(w, http.StatusNotFound, err.Error())
 		return
 	}
+
 	postId, err := strconv.Atoi(r.URL.Query().Get("id"))
 
 	if err != nil {
@@ -77,7 +75,6 @@ func (h *Handler) likeComment(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) dislikeComment(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println(r.URL.Path)
 	commentId, err := strconv.Atoi(r.URL.Query().Get("id_comment"))
 
 	if err != nil {

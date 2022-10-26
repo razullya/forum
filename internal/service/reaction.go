@@ -28,7 +28,13 @@ func (r *ReactionService) CreateReaction(id int, object string, action string, u
 	}
 	for i := 0; i < len(allReactions); i++ {
 		if allReactions[i].Username == username {
-
+			react, _ := r.storage.GetReactionById(id, object, username)
+			if react.Reaction == action {
+				if err := r.storage.DeleteReaction(id, object, username); err != nil {
+					return err
+				}
+				return nil
+			}
 			if err := r.storage.UpdateReaction(id, action, object, username); err != nil {
 				return err
 			}

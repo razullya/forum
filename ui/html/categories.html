@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link href="../ui/styles/style.css" rel="stylesheet" type="text/css">
+    <title>Categories</title>
+    <link href="../../ui/styles/style.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 </head>
@@ -38,35 +38,45 @@
         </header>
 
         <div class="main-content">
+            <h2>Categories:</h2>
+            <div class="all-categories">
+                {{$all:=.Posts}}
+                {{range .Categories}}
+                <div class="category">
+                    <span class="tags">{{.}}</span>
+                    {{$category:=.}}
+                    {{range $all}}
+                    {{$ok:=false}}
 
-            <form class="filter">
-                <a href="/post/categories">All Categories</a>
-                <input type="submit" name="filter" id="btn" value="More Liked">
-                <input type="submit" name="filter" id="btn" value="Newest">
-            </form>
+                    {{range .Category}}
 
-            <div class="posts">
 
-                {{range .Posts}}
-                <div class="post">
-                    <a class="post__title" href="/post/?id={{.Id}}">{{.Title}}</a>
-                    <a class="post__description">{{.Description}}</h3>
-                        <a href="/profile/{{.Creator}}">by {{.Creator}}</a>
-                        <ul>
-                            {{range .Category}}
-                            <li class="tags">{{.}}</li>
-                            {{end}}
-                        </ul>
+                    {{if eq . $category}}
+
+                    {{$ok = true}}
+
+                    {{end}}
+
+                    {{end}}
+
+                    {{if $ok}}
+
+                    <div class="filtered-post">
+                        <a class="post__title" href="/post/?id={{.Id}}">{{.Title}}</a>
+                        <br>
+                        <a href="/profile/{{.Creator}}">By {{.Creator}}</a>
+                    </div>
+                    {{end}}
+
+                    {{end}}
                 </div>
                 {{end}}
-
             </div>
-
 
         </div>
         <footer>
 
-            <div class="footer_text">FORUM by <b><a href="https://01.alem.school/git/razullya">razullya</a></b>
+            <div class="footer_text">FORUM by <br><b><a href="https://01.alem.school/git/razullya">razullya</a></b>
                 and
                 <b><a href="https://01.alem.school/git/Adi1_Asqaru1y">Adi1_Asqaru1y </a></b>
             </div>
@@ -78,17 +88,8 @@
     const postTitles = document.querySelectorAll('.post__title');
 
     postTitles.forEach(postTitle => {
-        if (postTitle.innerText.length > 80) {
-            postTitle.innerText = postTitle.innerText.substring(0, 40) + "...";
-        }
-    });
-
-
-    const postDescriptions = document.querySelectorAll('.post__description');
-
-    postDescriptions.forEach(postDescription => {
-        if (postDescription.innerText.length > 80) {
-            postDescription.innerText = postDescription.innerText.substring(0, 80) + "...";
+        if (postTitle.innerText.length > 20) {
+            postTitle.innerText = postTitle.innerText.substring(0, 20) + "...";
         }
     });
 

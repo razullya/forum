@@ -3,7 +3,6 @@ package delivery
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"forum/models"
 	"net/http"
 )
@@ -27,11 +26,12 @@ func (h *Handler) homePage(w http.ResponseWriter, r *http.Request) {
 	if len(filter) == 0 {
 		filter = append(filter, "")
 	}
-	if filter[0] != "by_categories" && filter[0] != "by_likes" && filter[0] != "by_time" && filter[0] != "" {
+
+	if filter[0] != "More Liked" && filter[0] != "Newest" && filter[0] != "" {
 		h.errorPage(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		return
 	}
-	fmt.Println(filter[0])
+
 	posts, err := h.Services.Post.GetAllPosts(filter[0])
 	if err != nil {
 		if !errors.Is(err, sql.ErrNoRows) {
@@ -52,8 +52,8 @@ func (h *Handler) homePage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	info := models.Info{
-		User:  user,
-		Posts: posts,
+		ThatUser: user,
+		Posts:    posts,
 	}
 	if err := h.Tmpl.ExecuteTemplate(w, "homepage.html", info); err != nil {
 		h.errorPage(w, http.StatusInternalServerError, err.Error())
